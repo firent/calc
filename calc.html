@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Калькулятор расчёта террасной доски</title>
+<!-- Author: Ivan Pozhidaev, Novosibirsk -->
+<style type="text/css">
+	#calculator * {font-size: 18px;}
+	#calculator table {border: solid 2px silver; border-spacing: 2px; background-color: #EEE; }
+	#calculator table td {border-spacing: 2px;}
+	input.display {width: 120px; text-align: right;}
+	td.buttons {border-top: solid 1px silver;}	
+	input[type= button] {width: 120px; height: 30px;}
+	input[type= text] {width: 150px; heigth: 30px;}
+	select {width: 450px; height: 30px;}
+</style>
+</head>
+<body>
+<form name="calc" id="calculator">
+	<table>
+	<tr>
+	<td>
+		<form>
+  			<label for="client_len">Длина помещения, м.: </label><br>
+  			<input type="text" id="client_len" name="client_len" placeholder="0.00" required><br>
+  			<label for="client_wid">Ширина помещения, м.: </label><br>
+  			<input type="text" id="client_wid" name="client_wid" placeholder="0.00" required>
+		</form>
+		<form>
+			<label for="client_dir">Направление укладки: </label><br>
+  			<input type="radio" name="direction" id="len" value="0" checked>по длине помещения<br>
+  			<input type="radio" name="direction" id="wid" value="1">по ширине помещения<br>
+		</form>
+	</td>
+	</tr>
+	<tr>
+	<td>
+		<label for="board_type">Тип террасной доски: </label><br>
+		<select id="board_type">
+			<option value="0.147">Полнотелая террасная доска</option>
+			<option value="0.147">Пустотелая террасная доска "Крупный вельвет"</option>
+			<option value="0.144">Пустотелая террасная доска "Мелкий вельвет"</option>
+		</select>
+	</td>
+	</tr>
+	<tr>
+	<td>
+		<label>Общая площадь помещения, кв.м.: </label><h1 id="square">0.00</h1>
+		<label>Количество досок, шт.: </label><h1 id="boards">0</h1>
+	  	<label>Длина доски, м.: </label><h1 id="boardLen">0.000</h1>
+		<input type="button" name="calculate1" value="Вычислить" OnClick="calcBoards(client_len.value, client_wid.value, board_type.value)">
+		<p><label>*Используйте в качестве разделителя точку "."</label></p>
+		<p><label>*Предполагаемый зазор между досками - 2 мм</label></p>
+	</td>
+	</tr>
+	</table>
+</form>
+<script>
+	function calcBoards(cLength, cWidth, boardType) {
+		var cLen = cLength;
+		var cWid = cWidth;
+		var bType = boardType;
+		if(document.getElementById("wid").checked){
+			cWid = [cLen, cLen = cWid][0];
+		}
+  		var fullSquare = (cLen*cWid).toFixed(2);
+		var count = Math.ceil(cLen/6.20);
+		var length = (cLen/count).toFixed(3);
+		var boards = Math.ceil((cWid/boardType)*count);
+		document.getElementById("square").innerHTML = fullSquare;
+		document.getElementById("boards").innerHTML = boards;
+		document.getElementById("boardLen").innerHTML = length;
+		}
+</script>
+<noscript>Sorry, your browser does not support JavaScript!</noscript>
+</body>
+</html>
